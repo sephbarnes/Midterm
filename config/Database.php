@@ -1,11 +1,11 @@
 <?php 
   class Database {
     // DB Params
-    private $host; 
-    private $port; 
-    private $dbname; 
     private $username; 
     private $password; 
+    private $dbname; 
+    private $host; 
+    private $port; 
     private $conn;
 
 public function __construct() {
