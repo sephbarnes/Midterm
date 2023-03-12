@@ -26,7 +26,7 @@
 
     include_once 'delete.php';
 
-  } else if ($method == 'GET') {
+  } else if ($method === 'GET') {
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $url_parts = parse_url($url);
     parse_str($url_parts['query'], $params);
@@ -37,9 +37,9 @@
     } else {
 
       include_once 'read.php';
-      
+
     }
-  } else if ($method == "PUT") {
+  } else if ($method === "PUT") {
     
     include_once 'update.php';
 
