@@ -17,7 +17,6 @@
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
-  //echo json_encode($data);
   
   if(!isset($data->author)) {
 		echo json_encode(
@@ -32,11 +31,11 @@
   // Create author
   if($author->create()) {
     echo json_encode(
-      array('message' => 'Post Created')
+      array('message' => 'Author Created')
     );
   } else {
     echo json_encode(
-      array('message' => 'Post Not Created')
+      array('message' => 'Author Not Created')
     );
   }
 

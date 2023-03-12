@@ -5,17 +5,15 @@
     private $table = 'authors';
 
     // Properties
-    public $id = 100;
-    public $author = "Weiss Schnee";
-    public $name;
-    public $created_at;
+    public $id;
+    public $author;
 
     // Constructor with DB
     public function __construct($db) {
       $this->conn = $db;
     }
 
-    // Get categories
+    // Get authors
     public function read() {
       // Create query
       $query = 'SELECT
@@ -59,7 +57,7 @@
         //test id 
         if($row['id'] == null) {
           echo json_encode(
-            array('message' => 'ID not found')
+            array('message' => 'author_id Not Found')
           );
           exit();
         }
@@ -111,7 +109,7 @@
     $query = 'UPDATE ' .
       $this->table . '
     SET
-      name = :name
+      author = :author
       WHERE
       id = :id';
 
@@ -119,11 +117,11 @@
   $stmt = $this->conn->prepare($query);
 
   // Clean data
-  $this->name = htmlspecialchars(strip_tags($this->name));
+  $this->author = htmlspecialchars(strip_tags($this->author));
   $this->id = htmlspecialchars(strip_tags($this->id));
 
   // Bind data
-  $stmt-> bindParam(':name', $this->name);
+  $stmt-> bindParam(':author', $this->author);
   $stmt-> bindParam(':id', $this->id);
 
   // Execute query

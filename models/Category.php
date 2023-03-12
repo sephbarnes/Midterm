@@ -6,8 +6,7 @@
 
     // Properties
     public $id;
-    public $name;
-    public $created_at;
+    public $category;
 
     // Constructor with DB
     public function __construct($db) {
@@ -19,12 +18,11 @@
       // Create query
       $query = 'SELECT
         id,
-        name,
-        created_at
+        category
       FROM
         ' . $this->table . '
       ORDER BY
-        created_at DESC';
+        id DESC';
 
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -40,11 +38,10 @@
     // Create query
     $query = 'SELECT
           id,
-          name
+          category
         FROM
           ' . $this->table . '
-      WHERE id = ?
-      LIMIT 0,1';
+      WHERE id = ?';
 
       //Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -53,31 +50,48 @@
       $stmt->bindParam(1, $this->id);
 
       // Execute query
-      $stmt->execute();
+      if($stmt->execute()) {
 
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      // set properties
-      $this->id = $row['id'];
-      $this->name = $row['name'];
+        //test id 
+        if($row['id'] == null) {
+          echo json_encode(
+          array('message' => 'author_id Not Found')
+          );
+          exit();
+        }
+
+        // set properties
+        $this->id = $row['id'];
+        $this->category = $row['category'];
+
+      } else {
+        // Print error if something goes wrong
+        printf("Error: $s.\n", $stmt->error);
+
+        return false;
+      }
   }
 
   // Create Category
   public function create() {
-    // Create Query
-    $query = 'INSERT INTO ' .
-      $this->table . '
-    SET
-      name = :name';
+
+  // Create Query
+  $query = 'INSERT INTO ' .
+  $this->table . ' 
+  (id, category) 
+  VALUES
+  (nextval(\'categories_id_seq\'::regclass)+1, :category)';
 
   // Prepare Statement
   $stmt = $this->conn->prepare($query);
 
   // Clean data
-  $this->name = htmlspecialchars(strip_tags($this->name));
+  $this->category = htmlspecialchars(strip_tags($this->category));
 
   // Bind data
-  $stmt-> bindParam(':name', $this->name);
+  $stmt-> bindParam('category', $this->category);
 
   // Execute query
   if($stmt->execute()) {
@@ -96,7 +110,7 @@
     $query = 'UPDATE ' .
       $this->table . '
     SET
-      name = :name
+      category = :category
       WHERE
       id = :id';
 
@@ -104,11 +118,11 @@
   $stmt = $this->conn->prepare($query);
 
   // Clean data
-  $this->name = htmlspecialchars(strip_tags($this->name));
+  $this->category = htmlspecialchars(strip_tags($this->category));
   $this->id = htmlspecialchars(strip_tags($this->id));
 
   // Bind data
-  $stmt-> bindParam(':name', $this->name);
+  $stmt-> bindParam(':category', $this->category);
   $stmt-> bindParam(':id', $this->id);
 
   // Execute query

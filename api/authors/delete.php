@@ -2,7 +2,7 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
-  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Allow-Methods: DELETE');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
@@ -31,11 +31,11 @@
   // Delete post
   if($author->delete()) {
     echo json_encode(
-      array('message' => 'author Deleted')
+      array('message' => 'Author Deleted')
     );
   } else {
     echo json_encode(
-      array('message' => 'author Not Deleted')
+      array('message' => 'Author Not Deleted')
     );
   }
 
