@@ -13,11 +13,19 @@
   $db = $database->connect();
 
   // Instantiate author object
-  $author = new Post($db);
+  $author = new Author($db);
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
-
+  //echo json_encode($data);
+  
+  if(!isset($data->author)) {
+		echo json_encode(
+			array('message' => 'Missing Required Parameters')
+		);
+		exit();
+	}
+  
   $author->id = $data->id;
   $author->author = $data->author;
 

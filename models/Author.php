@@ -5,8 +5,8 @@
     private $table = 'authors';
 
     // Properties
-    public $id;
-    public $author;
+    public $id = 100;
+    public $author = "Weiss Schnee";
     public $name;
     public $created_at;
 
@@ -20,12 +20,11 @@
       // Create query
       $query = 'SELECT
         id,
-        name,
-        created_at
+        author
       FROM
         ' . $this->table . '
       ORDER BY
-        created_at DESC';
+        id DESC';
 
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -41,11 +40,10 @@
     // Create query
     $query = 'SELECT
           id,
-          name
+          author
         FROM
           ' . $this->table . '
-      WHERE id = ?
-      LIMIT 0,1';
+      WHERE id = ?';
 
       //Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -54,22 +52,38 @@
       $stmt->bindParam(1, $this->id);
 
       // Execute query
-      $stmt->execute();
+      if($stmt->execute()) {
 
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      // set properties
-      $this->id = $row['id'];
-      $this->name = $row['name'];
+        //test id 
+        if($row['id'] == null) {
+          echo json_encode(
+            array('message' => 'ID not found')
+          );
+          exit();
+        }
+
+        // set properties
+        $this->id = $row['id'];
+        $this->author = $row['author'];
+
+      } else {
+          // Print error if something goes wrong
+          printf("Error: $s.\n", $stmt->error);
+          
+          return false;
+      }
   }
 
   // Create Category
   public function create() {
     // Create Query
     $query = 'INSERT INTO ' .
-      $this->table . '
-    SET
-      author = :author';
+      $this->table . ' 
+      (id, author) 
+    VALUES
+      (nextval(\'authors_id_seq\'::regclass)+1, :author)';
 
   // Prepare Statement
   $stmt = $this->conn->prepare($query);
@@ -78,8 +92,8 @@
   $this->author = htmlspecialchars(strip_tags($this->author));
 
   // Bind data
-  $stmt-> bindParam(':author', $this->author);
-
+  $stmt->bindParam(':author', $this->author);
+    //echo "statement line 83 " . $this->author; //this needs fixed
   // Execute query
   if($stmt->execute()) {
     return true;

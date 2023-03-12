@@ -2,32 +2,30 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
+  header('Access-Control-Allow-Methods: POST');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Post.php';
+  include_once '../../models/Author.php';
 
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate blog post object
-  $post = new Post($db);
+  // Instantiate author object
+  $author = new Author($db);
 
   // Get ID
-  $post->id = isset($_GET['id']) ? $_GET['id'] : die();
-
-  // Get post
-  $post->read_single();
+  $author->id = isset($_GET['id']) ? $_GET['id'] : die();
+  //echo json_encode($author->id);
+  // Get author
+  $author->read_single();
 
   // Create array
-  $post_arr = array(
-    'id' => $post->id,
-    'title' => $post->title,
-    'body' => $post->body,
-    'author' => $post->author,
-    'category_id' => $post->category_id,
-    'category_name' => $post->category_name
+  $author_arr = array(
+    'id' => $author->id,
+    'author' => $author->author
   );
 
   // Make JSON
-  print_r(json_encode($post_arr));
+  print_r(json_encode($author_arr));

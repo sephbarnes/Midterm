@@ -9,11 +9,11 @@
     private $conn;
 
 public function __construct() {
-  $this->username = 'postgres';
-  $this->password = 'Sh3mas43P';
-  $this->dbname = 'quotesdb';
-  $this->host = 'localhost';
-  $this->port = '5432';
+  $this->username = getenv('USERNAME');
+  $this->password = getenv('PASSWORD');
+  $this->dbname = getenv('DBNAME');
+  $this->host = getenv('HOST');
+  $this->port = getenv('PORT');
 }
 
     // DB Connect
