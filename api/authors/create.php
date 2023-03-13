@@ -18,6 +18,7 @@
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
   
+  //test if data received
   if(!isset($data->author)) {
 		echo json_encode(
 			array('message' => 'Missing Required Parameters')
@@ -25,7 +26,6 @@
 		exit();
 	}
   
-  $author->id = $data->id;
   $author->author = $data->author;
 
   // Create author

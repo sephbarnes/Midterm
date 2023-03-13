@@ -79,10 +79,9 @@
 
   // Create Query
   $query = 'INSERT INTO ' .
-  $this->table . ' 
-  (id, category) 
+  $this->table . ' (category) 
   VALUES
-  (nextval(\'categories_id_seq\'::regclass)+1, :category)';
+  (:category)';
 
   // Prepare Statement
   $stmt = $this->conn->prepare($query);
@@ -91,7 +90,7 @@
   $this->category = htmlspecialchars(strip_tags($this->category));
 
   // Bind data
-  $stmt-> bindParam('category', $this->category);
+  $stmt->bindParam(':category', $this->category);
 
   // Execute query
   if($stmt->execute()) {

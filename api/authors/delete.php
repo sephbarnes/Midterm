@@ -31,7 +31,7 @@
   // Delete post
   if($author->delete()) {
     echo json_encode(
-      array('message' => 'Author Deleted')
+      array('message' => 'Author id = ' . $data->id . ' Deleted')
     );
   } else {
     echo json_encode(

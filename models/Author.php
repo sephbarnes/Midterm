@@ -76,12 +76,12 @@
 
   // Create Category
   public function create() {
+
     // Create Query
     $query = 'INSERT INTO ' .
-      $this->table . ' 
-      (id, author) 
+      $this->table . ' (author) 
     VALUES
-      (nextval(\'authors_id_seq\'::regclass)+1, :author)';
+      (:author)';
 
   // Prepare Statement
   $stmt = $this->conn->prepare($query);
@@ -91,7 +91,7 @@
 
   // Bind data
   $stmt->bindParam(':author', $this->author);
-    //echo "statement line 83 " . $this->author; //this needs fixed
+  
   // Execute query
   if($stmt->execute()) {
     return true;
