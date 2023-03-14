@@ -1,34 +1,43 @@
-<?php
+<?php 
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: PUT');
-  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Category.php';
+  include_once '../../models/Author.php';
+
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate blog post object
-  $category = new Category($db);
+  // Instantiate author object
+  $author = new Author($db);
 
   // Get raw posted data
   $data = json_decode(file_get_contents("php://input"));
 
-  // Set ID to UPDATE
-  $category->id = $data->id;
+  //test if data received
+  if(!isset($data->author)) {
+		echo json_encode(
+			array('message' => 'Missing Required Parameters')
+		);
+		exit();
+	}
 
-  $category->name = $data->name;
+  // Set ID to update
+  $author->id = $data->id;
+  $author->author = $data->author;
 
-  // Update post
-  if($category->update()) {
+  // Update author
+  if($author->update()) {
     echo json_encode(
-      array('message' => 'Category Updated')
+      array('id' => $author->id, 'author' => $author->author)
     );
   } else {
     echo json_encode(
-      array('message' => 'Category not updated')
+      array('message' => 'author_id Not Found')
     );
   }
+

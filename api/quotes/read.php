@@ -2,47 +2,48 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
+  header('Access-Control-Allow-Methods: GET');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Category.php';
+  include_once '../../models/Author.php';
 
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate category object
-  $category = new Category($db);
-
-  // Category read query
-  $result = $category->read();
+  // Instantiate author object
+  $author = new Author($db);
   
+  // Blog author query
+  $result = $author->read();
+
   // Get row count
   $num = $result->rowCount();
 
-  // Check if any categories
+  // Check if any authors
   if($num > 0) {
-        // Cat array
-        $cat_arr = array();
-        $cat_arr['data'] = array();
+    // author array
+    $authors_arr = array();
 
-        while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-          extract($row);
+    while($row = $result->fetch(PDO::FETCH_ASSOC)) {
+      extract($row);
 
-          $cat_item = array(
-            'id' => $id,
-            'name' => $name
-          );
+      $author_item = array(
+        'id' => $id,
+        'author' => $author
+      );
 
-          // Push to "data"
-          array_push($cat_arr['data'], $cat_item);
-        }
+      // Push to "data"
+      array_push($authors_arr, $author_item);
+    }
 
-        // Turn to JSON & output
-        echo json_encode($cat_arr);
+    // Turn to JSON & output
+    echo json_encode($authors_arr);
 
   } else {
-        // No Categories
-        echo json_encode(
-          array('message' => 'No Categories Found')
-        );
+    // No Posts
+    echo json_encode(
+      array('message' => 'No Authors Found')
+    );
   }
