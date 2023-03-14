@@ -59,12 +59,13 @@
           echo json_encode(
             array('message' => 'author_id Not Found')
           );
-          exit();
+          return false;
         }
 
         // set properties
         $this->id = $row['id'];
         $this->author = $row['author'];
+        return true;
 
       } else {
           // Print error if something goes wrong

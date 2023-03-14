@@ -26,6 +26,13 @@
 		exit();
 	}
 
+  //check if the data is valid
+  $valid = isValid($data->author_id, $quote);
+
+  if(!$valid) {
+    exit();
+  }
+
   // Set ID to update
   $author->id = $data->id;
   $author->author = $data->author;

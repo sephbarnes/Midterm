@@ -7,6 +7,7 @@
 
   include_once '../../config/Database.php';
   include_once '../../models/Category.php';
+  include_once '../../functions/isValid.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -25,6 +26,14 @@
 		exit();
 	}
 
+  //check if the data is valid
+  $valid = isValid($data->id, $category);
+ 
+    if(!$valid) {
+    
+    exit();
+  }
+  
   // Set ID to UPDATE
   $category->id = $data->id;
   $category->category = $data->category;

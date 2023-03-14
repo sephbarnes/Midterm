@@ -7,6 +7,7 @@
 
   include_once '../../config/Database.php';
   include_once '../../models/Quote.php';
+  include_once '../../functions/isValid.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -26,19 +27,31 @@
 		exit();
 	}
   
+  /*//check if the data is valid
+  $valid = isValid($data->author_id, $quote);
+
+  if(!$valid) {
+    exit();
+  }
+
+  $valid = isValid($data->category_id, $quote);
+
+  if(!$valid) {
+    exit();
+  }*/
+
   $quote->quote = $data->quote;
   $quote->author_id = $data->author_id;
   $quote->category_id = $data->category_id;
 
-
   // Create quote
   if($quote->create()) {
     echo json_encode(
-      array('message' => 'quote Created')
+      array('message' => 'Quote Created')
     );
   } else {
     echo json_encode(
-      array('message' => 'Author Not Created')
+      array('message' => 'Quote Not Created')
     );
   }
 
