@@ -27,17 +27,17 @@
 	}
 
   // Set ID to update
-  $post->id = $data->id;
-  $post->author = $data->author;
+  $author->id = $data->id;
+  $author->author = $data->author;
 
-  // Update post
-  if($post->update()) {
+  // Update author
+  if($author->update()) {
     echo json_encode(
-      array('message' => 'Author Updated')
+      array('id' => $author->id, 'author' => $author->author)
     );
   } else {
     echo json_encode(
-      array('message' => 'Author Not Updated')
+      array('message' => 'author_id Not Found')
     );
   }
 

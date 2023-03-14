@@ -27,7 +27,6 @@
 
   // Set ID to UPDATE
   $category->id = $data->id;
-
   $category->name = $data->name;
 
   // Update post

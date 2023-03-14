@@ -22,7 +22,7 @@
       FROM
         ' . $this->table . '
       ORDER BY
-        id DESC';
+        id';
 
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -55,9 +55,9 @@
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //test id 
-        if($row['id'] == null) {
+        if(!isset($row['id'])) {
           echo json_encode(
-          array('message' => 'author_id Not Found')
+            array('message' => 'category_id Not Found')
           );
           exit();
         }

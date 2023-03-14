@@ -17,7 +17,7 @@
 
   // Get ID
   $author->id = isset($_GET['id']) ? $_GET['id'] : die();
-  //echo json_encode($author->id);
+
   // Get author
   $author->read_single();
 

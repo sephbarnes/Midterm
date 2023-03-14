@@ -29,8 +29,8 @@
   } else if ($method === 'GET') {
     $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $url_parts = parse_url($url);
-    parse_str($url_parts['query'], $params);
-    if($params['id']) {
+    parse_str($url_parts['query'] ?? null, $params);
+    if($params['id'] ?? null) {
 
       include_once 'read_single.php';
 

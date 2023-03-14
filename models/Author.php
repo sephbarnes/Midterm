@@ -22,7 +22,7 @@
       FROM
         ' . $this->table . '
       ORDER BY
-        id DESC';
+        id';
 
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -55,7 +55,7 @@
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //test id 
-        if($row['id'] == null) {
+        if(!isset($row['id'])) {
           echo json_encode(
             array('message' => 'author_id Not Found')
           );
@@ -110,7 +110,7 @@
       $this->table . '
     SET
       author = :author
-      WHERE
+    WHERE
       id = :id';
 
   // Prepare Statement
@@ -119,10 +119,18 @@
   // Clean data
   $this->author = htmlspecialchars(strip_tags($this->author));
   $this->id = htmlspecialchars(strip_tags($this->id));
-
+  /*  echo json_encode(!isset($this->id));
+  //test id 
+  if(!isset($this->id)) {
+    echo json_encode(
+      array('message' => 'author_id Not Found')
+    );
+    exit();
+  }*/
+  
   // Bind data
-  $stmt-> bindParam(':author', $this->author);
-  $stmt-> bindParam(':id', $this->id);
+  $stmt->bindParam(':author', $this->author);
+  $stmt->bindParam(':id', $this->id);
 
   // Execute query
   if($stmt->execute()) {
