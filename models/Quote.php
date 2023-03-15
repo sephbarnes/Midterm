@@ -18,12 +18,16 @@
     // Get all quotes
     public function read() {
       // Create query
-      $query = 'SELECT c.name as category_name, p.id, p.category_id, p.title, p.body, p.author, p.created_at
-                                FROM ' . $this->table . ' p
-                                LEFT JOIN
-                                  categories c ON p.category_id = c.id
-                                ORDER BY
-                                  p.created_at DESC';
+			$query = 'SELECT
+				quotes.id, quotes.quote, authors.author, categories.category
+			FROM
+				' . $this->table . '
+			INNER JOIN
+				authors ON quotes.author_id = authors.id
+			INNER JOIN
+				categories ON quotes.category_id = categories.id
+			ORDER BY
+				id';
       
       // Prepare statement
       $stmt = $this->conn->prepare($query);
@@ -84,7 +88,7 @@
             // Prepare statement
             $stmt = $this->conn->prepare($query);
 
-            // Bind ID
+            // Bind parameters
             $stmt->bindParam(':a_id', $this->author_id);
             $stmt->bindParam(':c_id', $this->category_id);
 

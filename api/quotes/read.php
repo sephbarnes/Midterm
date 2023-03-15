@@ -6,44 +6,46 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Author.php';
+  include_once '../../models/Quote.php';
 
   // Instantiate DB & connect
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate author object
-  $author = new Author($db);
+  // Instantiate quote object
+  $quote = new Quote($db);
   
-  // Blog author query
-  $result = $author->read();
+  // Blog quote query
+  $result = $quote->read();
 
   // Get row count
   $num = $result->rowCount();
 
-  // Check if any authors
+  // Check if any quotes
   if($num > 0) {
-    // author array
-    $authors_arr = array();
+    // quote array
+    $quotes_arr = array();
 
     while($row = $result->fetch(PDO::FETCH_ASSOC)) {
       extract($row);
 
-      $author_item = array(
+      $quote_item = array(
         'id' => $id,
-        'author' => $author
+        'quote' => $quote,
+        'author' => $author,
+        'category' => $category
       );
 
       // Push to "data"
-      array_push($authors_arr, $author_item);
+      array_push($quotes_arr, $quote_item);
     }
 
     // Turn to JSON & output
-    echo json_encode($authors_arr);
+    echo json_encode($quotes_arr);
 
   } else {
     // No Posts
     echo json_encode(
-      array('message' => 'No Authors Found')
+      array('message' => 'No quotes Found')
     );
   }
