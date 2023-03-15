@@ -15,7 +15,7 @@
       $this->conn = $db;
     }
 
-    // Get Quotes
+    // Get all quotes
     public function read() {
       // Create query
       $query = 'SELECT c.name as category_name, p.id, p.category_id, p.title, p.body, p.author, p.created_at
@@ -38,7 +38,8 @@
     public function read_single() {
       //there are 4 options so check which one it is and do that one
       
-      if($_GET['id']) {
+          //get the specific quote
+          if(isset($_GET['id'])) {
           // Create query
           $query = 'SELECT q.id, q.quote, a.author, c.category as id, quote, author, category
                                     FROM ' . $this->table . ' q
@@ -49,14 +50,14 @@
                                     WHERE
                                       q.id = :id';
 
-          // Prepare statement
-          $stmt = $this->conn->prepare($query);
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
 
-          // Bind ID
-          $stmt->bindParam(':id', $this->id);
+            // Bind ID
+            $stmt->bindParam(':id', $this->id);
 
-          // Execute query
-          if($stmt->execute()) {
+             // Execute query
+            $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //test id 
@@ -64,30 +65,54 @@
               $this->quote = $row['quote'];
               $this->author_id = $row['author_id'];
               $this->category_id = $row['category_id'];
-            }
-          /*if(!is_array($row)) {
-            echo json_encode(
-              array('message' => 'author_id Not Found')
-            );*/
-
-            return false;
+            }          
           }
 
-            // Set properties
-            $this->quote = $row['quote'];
-            //$this->author = $row['author'];
-            //$this->category_id = $row['category_id'];
-            return true;
+          //get all quotes from author_id and category_id
+          if(isset($_GET['author_id']) && isset($_GET['category_id'])) {
+            $query = 'SELECT q.id, q.quote, a.author, c.category as id, quote, author, category
+            FROM ' . $this->table . ' q
+            INNER JOIN
+              authors a ON q.author_id = a.id
+            INNER JOIN
+              categories c ON q.category_id = c.id
+            WHERE
+              a.id = :a_id
+              AND
+              c.id = :c_id';
 
-          } else {
-            // Print error if something goes wrong
-            printf("Error: $s.\n", $stmt->error);
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            // Bind ID
+            $stmt->bindParam(':a_id', $this->author_id);
+            $stmt->bindParam(':c_id', $this->category_id);
+
+             // Execute query
+            $stmt->execute();
+            
+            $quote_arr = [];
+
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              extract($row);
+              $quote_arr[] = ['id' => $id, 'quote' => $quote, 'author_id' => $author_id, 'category_id' => $category_id];
+            }
+
+            return $quotes; 
+          }
+
+          //get all quotes from author_id
+          if(isset($_GET['author_id'])) {
+
+          }
           
-            return false;
+          //get all quotes from category_id
+          if(isset($_GET['category_id'])) {
+            
           }
 
         } 
-    }
+    
 
     // Create Post
     public function create() {
