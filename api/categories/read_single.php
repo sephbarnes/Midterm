@@ -18,7 +18,7 @@
   // Get ID
   $category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-  // Get post
+  // Get category
   $category->read_single();
 
   // Create array

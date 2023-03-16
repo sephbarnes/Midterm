@@ -61,4 +61,5 @@ INSERT INTO quotes (id, quote, author_id, category_id)
 (22, 'The LORD is gracious, and full of compassion; slow to anger, and of great mercy.', 3, 1),
 (23, 'The LORD is my shepherd; I shall not want.', 3, 1),
 (24, 'Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.', 3, 1),
-(25, 'Create in me a clean heart, O God; and renew a right spirit within me.', 3, 5);
+(25, 'Create in me a clean heart, O God; and renew a right spirit within me.', 3, 5)
+(26, 'And many shall follow their pernicious ways; by reason of whom the way of truth shall be evil spoken of.', 5, 4);

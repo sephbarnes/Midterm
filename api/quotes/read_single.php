@@ -20,28 +20,35 @@
   $data = json_decode(file_get_contents("php://input"));
   
   if(isset($_GET['id'])) {
-    
+    $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+    // Get quote
+    $quote->read_single();
+
+    // Create array
+    $quote_arr = array(
+      'id' => $quote->id,
+      'quote' => $quote->quote,
+      'author_id' => $quote->author,
+      'category_id' => $quote->category
+    );
+
+    if($quote->quote !== null) {
+      // Make JSON
+      print_r(json_encode($quote_arr));         ///dif
+    } else {
+      echo json_encode(array('message' => 'No quotes Found'));
+    }
 
   }
 
-  //test if data received
-  if(!isset($data->quote)) {
+  /*//test if data received
+  if(!isset($data->id)) {
 		echo json_encode(
 			array('message' => 'Missing Required Parameters')
 		);
 		exit();
 	}
 
-  /*// Get ID
-  if(isset($_GET['id'])) {
-    $quote->id = $_GET['id']
-  } else if(isset($_GET['author_id'])) {
-    $quote->id = $_GET['author_id']
-  } else if(isset($_GET['category_id'])) {
-    $quote->id = $_GET['category_id']
-  } else {
-    die();
-  }*/
 
   // Get quote
   $quote->read_single();
@@ -53,4 +60,4 @@
   );
 
   // Make JSON
-  print_r(json_encode($quote_arr));
+  print_r(json_encode($quote_arr));*/

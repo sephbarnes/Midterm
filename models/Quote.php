@@ -6,8 +6,8 @@
 
     // Quote Properties
     public $id;
-    public $category_id;
-    public $author_id;
+    public $category;
+    public $author;
     public $quote;
 
     // Constructor with DB
@@ -45,14 +45,16 @@
           //get the specific quote
           if(isset($_GET['id'])) {
           // Create query
-          $query = 'SELECT q.id, q.quote, a.author, c.category as id, quote, author, category
-                                    FROM ' . $this->table . ' q
-                                    INNER JOIN
-                                      authors a ON q.author_id = a.id
-                                    INNER JOIN
-                                      categories c ON q.category_id = c.id
-                                    WHERE
-                                      q.id = :id';
+            $query = 'SELECT
+              quotes.id, quotes.quote, authors.author, categories.category
+            FROM
+              ' . $this->table . '
+            INNER JOIN
+              authors ON quotes.author_id = authors.id
+            INNER JOIN
+              categories ON quotes.category_id = categories.id
+                                        WHERE
+                                          quotes.id = :id';
 
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -66,9 +68,10 @@
 
             //test id 
             if (is_array($row)) {
+              $this->id = $row['id'];
               $this->quote = $row['quote'];
-              $this->author_id = $row['author_id'];
-              $this->category_id = $row['category_id'];
+              $this->author = $row['author'];       
+              $this->category = $row['category'];
             }          
           }
 
@@ -107,6 +110,35 @@
 
           //get all quotes from author_id
           if(isset($_GET['author_id'])) {
+            // Create query
+            $query = 'SELECT
+              quotes.id, quotes.quote, authors.author, categories.category
+            FROM
+              ' . $this->table . '
+            INNER JOIN
+              authors ON quotes.author_id = authors.id
+            INNER JOIN
+              categories ON quotes.category_id = categories.id
+                                        WHERE
+                                          quotes.quthor_id = :a_id';
+
+            // Prepare statement
+            $stmt = $this->conn->prepare($query);
+
+            // Bind ID
+            $stmt->bindParam(':a_id', $this->id);
+
+            // Execute query
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            //test id 
+            if (is_array($row)) {
+              $this->id = $row['id'];
+              $this->quote = $row['quote'];
+              $this->author = $row['author'];       
+              $this->category = $row['category'];
+            }     
 
           }
           
