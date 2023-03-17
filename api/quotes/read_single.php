@@ -21,8 +21,12 @@
   
   if(isset($_GET['id'])) {
     $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
+    
+    //cannot call isValid() in this block
+    //This block is always called by isValid() to validate ids
+    
     // Get quote
-    $quote->read_single();
+    $quote->read_single(); //member function / method
 
     // Create array
     $quote_arr = array(
@@ -32,6 +36,7 @@
       'category_id' => $quote->category
     );
 
+    //the real error testing for isValid()
     if($quote->quote !== null) {
       // Make JSON
       print_r(json_encode($quote_arr));         
@@ -42,61 +47,32 @@
   } 
   
   if(isset($_GET['author_id'])) {
-  echo json_encode(array('message' => 'Here we go TEST 1'));
+    $quote->author_id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
 
-    $quote->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
-    
     //get quotes
-    $quotes_arr = $quote->read_single();
+    $quote_arr = $quote->read_single();
 
-    // Make JSON
-    echo json_encode($quotes_arr);
-
-    /*if($quote->quote !== null) {
+    //test if array of quotes is empty
+    if(!empty($quote_arr)) {
       // Make JSON
-      print_r(json_encode($quote_arr));         ///dif
-    } else {
-      echo json_encode(array('message' => 'No Quotes Found'));
-    }*/
-  
-
-
-
-  }
-  
-  if(isset($_GET['category_id'])) {
-    $quote->read_single();
-
-    // Create array
-    $quote_arr = array(
-      'id' => $quote->id,
-      'quote' => $quote->quote,
-      'author_id' => $quote->author,
-      'category_id' => $quote->category
-    );
-
-    if($quote->quote !== null) {
-      // Make JSON
-      print_r(json_encode($quote_arr));         ///dif
+      print_r(json_encode($quote_arr));         
     } else {
       echo json_encode(array('message' => 'No Quotes Found'));
     }
-      // Make JSON
-      echo json_encode($quotes_arr);
   }
-
-  if(isset($_GET['author_id']) && isset($_GET['category_id'])) {
-    echo json_encode(array('message' => 'Here we go TEST 2!'));
-     
-      $quote->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
-      //get quotes
-      $quotes_arr = $quote->read_single();
-  
-      // Make JSON
-      echo json_encode($quotes_arr);
-  
-  
-  
-  }
-
+  	
+	if (isset($_GET['category_id'])) {
+		$quote->category_id = isset($_GET['category_id']) ? $_GET['category_id'] : die();
+    //get quotes
+    $quote_arr = $quote->read_single();
+    echo json_encode($quote_arr);
+	}
+	
+	if (isset($_GET['author_id']) && isset($_GET['category_id'])) {
+		$quote->id = isset($_GET['author_id']) ? $_GET['author_id'] : die();
+    //get quotes
+    $quote->read_single();
+    echo json_encode($quote_arr);
+	}	
 ?>
+

@@ -9,6 +9,8 @@
     public $category;
     public $author;
     public $quote;
+    public $author_id;
+    public $category_id;
 
     // Constructor with DB
     public function __construct($db) {
@@ -54,7 +56,7 @@
             INNER JOIN
               categories ON quotes.category_id = categories.id
                                         WHERE
-                                          quotes.id = :id';
+                                          quotes.id = :id LIMIT 1';
 
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -68,7 +70,6 @@
 
             //test id 
             if (is_array($row)) {
-              $this->id = $row['id'];
               $this->quote = $row['quote'];
               $this->author = $row['author'];       
               $this->category = $row['category'];
@@ -86,12 +87,17 @@
             INNER JOIN
               categories ON quotes.category_id = categories.id
                                         WHERE
-                                          authors.author = :a_id
+                                          quotes.author_id = :a_id
                                           AND 
-                                          categories.category = :c_id';
+                                          quotes.category_id = :c_id';
+            
+           
+
             // Prepare statement
             $stmt = $this->conn->prepare($query);
 
+            $this->author_id = $_GET['author_id'];
+            $this->category_id = $_GET['category_id'];
             // Bind parameters
             $stmt->bindParam(':a_id', $this->author_id);
             $stmt->bindParam(':c_id', $this->category_id);
@@ -104,7 +110,7 @@
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               extract($row);
 
-              $quote_arr[] = ['id' => $id, 'quote' => $quote, 'author_id' => $author_id, 'category_id' => $category_id];
+              $quote_arr[] = ['id' => $id, 'quote' => $quote, 'author' => $author, 'category' => $category];
             }
 
             return $quote_arr; 
@@ -122,7 +128,8 @@
             INNER JOIN
               categories ON quotes.category_id = categories.id
                                         WHERE
-                                          quotes.author_id = :a_id';
+                                          quotes.author_id = :a_id
+                                          ORDER BY quotes.id';
 
             // Prepare statement
             $stmt = $this->conn->prepare($query);
@@ -135,25 +142,51 @@
 
             $quote_arr = [];
 
-            
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               extract($row);
 
               $quote_arr [] = ['id' => $id, 'quote' => $quote, 'author' => $author, 'category' => $category];
             }
-            echo json_encode(array('message' => 'Here we go TEST 3'));
- 
-            return $quote_arr;   
 
+            return $quote_arr;   
           }
           
           //get all quotes from category_id
           if(isset($_GET['category_id'])) {
-            
+                        // Create query
+                        $query = 'SELECT
+                        quotes.id, quotes.quote, authors.author, categories.category
+                      FROM
+                        ' . $this->table . '
+                      INNER JOIN
+                        authors ON quotes.author_id = authors.id
+                      INNER JOIN
+                        categories ON quotes.category_id = categories.id
+                                                  WHERE
+                                                    quotes.category_id = :c_id';
+          
+                      // Prepare statement
+                      $stmt = $this->conn->prepare($query);
+          
+                      // Bind ID
+                      $stmt->bindParam(':c_id', $this->category_id);
+          
+                      // Execute query
+                      $stmt->execute();
+          
+                      $quote_arr = [];
+          
+                      
+                      while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row);
+          
+                        $quote_arr [] = ['id' => $id, 'quote' => $quote, 'author' => $author, 'category' => $category];
+                      }
+           
+                      return $quote_arr;  
           }
 
         } 
-    
 
     // Create Post
     public function create() {
