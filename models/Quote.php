@@ -77,17 +77,18 @@
 
           //get all quotes from author_id and category_id
           if(isset($_GET['author_id']) && isset($_GET['category_id'])) {
-            $query = 'SELECT q.id, q.quote, a.author, c.category as id, quote, author, category
-            FROM ' . $this->table . ' q
+            $query = 'SELECT
+              quotes.id, quotes.quote, authors.author, categories.category
+            FROM
+              ' . $this->table . '
             INNER JOIN
-              authors a ON q.author_id = a.id
+              authors ON quotes.author_id = authors.id
             INNER JOIN
-              categories c ON q.category_id = c.id
-            WHERE
-              a.id = :a_id
-              AND
-              c.id = :c_id';
-
+              categories ON quotes.category_id = categories.id
+                                        WHERE
+                                          authors.author = :a_id
+                                          AND 
+                                          categories.category = :c_id';
             // Prepare statement
             $stmt = $this->conn->prepare($query);
 
@@ -102,10 +103,11 @@
 
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               extract($row);
+
               $quote_arr[] = ['id' => $id, 'quote' => $quote, 'author_id' => $author_id, 'category_id' => $category_id];
             }
 
-            return $quotes; 
+            return $quote_arr; 
           }
 
           //get all quotes from author_id
@@ -120,25 +122,28 @@
             INNER JOIN
               categories ON quotes.category_id = categories.id
                                         WHERE
-                                          quotes.quthor_id = :a_id';
+                                          quotes.author_id = :a_id';
 
             // Prepare statement
             $stmt = $this->conn->prepare($query);
 
             // Bind ID
-            $stmt->bindParam(':a_id', $this->id);
+            $stmt->bindParam(':a_id', $this->author_id);
 
             // Execute query
             $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            //test id 
-            if (is_array($row)) {
-              $this->id = $row['id'];
-              $this->quote = $row['quote'];
-              $this->author = $row['author'];       
-              $this->category = $row['category'];
-            }     
+            $quote_arr = [];
+
+            
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+              extract($row);
+
+              $quote_arr [] = ['id' => $id, 'quote' => $quote, 'author' => $author, 'category' => $category];
+            }
+            echo json_encode(array('message' => 'Here we go TEST 3'));
+ 
+            return $quote_arr;   
 
           }
           
