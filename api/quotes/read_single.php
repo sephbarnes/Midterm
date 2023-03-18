@@ -21,7 +21,7 @@
   
   if(isset($_GET['id'])) {
     $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
-    echo json_encode(array('message' => 'read single test'));
+    //echo json_encode(array('message' => 'read single test'));
 
     //cannot call isValid() in this block
     //This block is always called by isValid() to validate ids
@@ -33,8 +33,8 @@
     $quote_arr = array(
       'id' => $quote->id,
       'quote' => $quote->quote,
-      'author_id' => $quote->author,
-      'category_id' => $quote->category
+      'author' => $quote->author,
+      'category' => $quote->category
     );
 
     //the real error testing for isValid()
