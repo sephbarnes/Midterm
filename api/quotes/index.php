@@ -1,13 +1,13 @@
 <?php 
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+    $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method === 'OPTIONS') {
-    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
-    exit();
-}
+    if ($method === 'OPTIONS') {
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+        exit();
+    }
 
   //get URI for specific id read requests
   $uri = $_SERVER['REQUEST_URI'];
@@ -24,10 +24,6 @@ if ($method === 'OPTIONS') {
     include_once 'delete.php';
 
   } else if ($method === 'GET') {
-    /*
-    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $url_parts = parse_url($url);
-    parse_str($url_parts['query'] ?? null, $params);*/
     if(parse_url($uri, PHP_URL_QUERY)) {
 
       include_once 'read_single.php';

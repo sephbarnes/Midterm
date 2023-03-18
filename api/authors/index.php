@@ -1,6 +1,5 @@
 <?php 
-  //CORS HEADERS go on top of every index.php in the api folders
-  header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     $method = $_SERVER['REQUEST_METHOD'];
 
