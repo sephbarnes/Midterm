@@ -192,6 +192,36 @@
 
     // Create Post
     public function create() {
+          //before creation check if author_id and category id are correct
+          //query if author_id exists  
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE author_id = :a_id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':a_id', $this->author_id);
+          if($stmt->execute()){ //remove if here
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'author_id Not Found')
+              );
+              exit();
+            }
+          }
+
+          //query if category_id exists
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE category_id = :c_id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':c_id', $this->category_id);
+          if($stmt->execute()){ //remove if here
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'category_id Not Found'));
+                exit();
+            }
+          }
+
           // Create query
           $query = 'INSERT INTO ' . $this->table . 
           ' (quote, author_id, category_id) 

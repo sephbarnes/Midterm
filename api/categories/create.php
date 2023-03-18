@@ -30,8 +30,9 @@
   // Create Category
   if($category->create()) {
     echo json_encode(
-      array('message' => 'Category Created')
-    );
+      array(
+        'id' => $category->id,
+        'category' => $category->category));
   } else {
     echo json_encode(
       array('message' => 'Category Not Created')
