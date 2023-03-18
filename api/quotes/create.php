@@ -27,18 +27,25 @@
 		exit();
 	}
   
-  /*//check if the data is valid
+  //check if the data is valid
   $valid = isValid($data->author_id, $quote);
+  echo json_encode(array('message' => $valid));
 
+  //test if author id is valid
   if(!$valid) {
+    array('message' => 'author_id Not Found');
+
     exit();
   }
 
+  //test is category id is valid
   $valid = isValid($data->category_id, $quote);
 
   if(!$valid) {
+    array('message' => 'category_id Not Found');
+
     exit();
-  }*/
+  }
 
   $quote->quote = $data->quote;
   $quote->author_id = $data->author_id;

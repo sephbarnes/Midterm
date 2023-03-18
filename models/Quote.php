@@ -89,7 +89,8 @@
                                         WHERE
                                           quotes.author_id = :a_id
                                           AND 
-                                          quotes.category_id = :c_id';
+                                          quotes.category_id = :c_id
+                                          ORDER BY quotes.id';
             
            
 
@@ -163,7 +164,8 @@
                       INNER JOIN
                         categories ON quotes.category_id = categories.id
                                                   WHERE
-                                                    quotes.category_id = :c_id';
+                                                    quotes.category_id = :c_id
+                                                    ORDER BY quotes.id';
           
                       // Prepare statement
                       $stmt = $this->conn->prepare($query);
