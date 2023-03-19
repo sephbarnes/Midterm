@@ -247,32 +247,60 @@
           }
 
       // Print error if something goes wrong
-      printf("Error: %s.\n", $stmt->error);
+      //printf("Error: %s.\n", $stmt->error);
 
       return false;
     }
 
     // Update Post
     public function update() {
+          //before update check if author_id and category id are correct
+          //query if author_id exists  
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE author_id = :a_id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':a_id', $this->author_id);
+          if($stmt->execute()){ //remove if here
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'author_id Not Found')
+              );
+              exit();
+            }
+          }
+
+          //query if category_id exists
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE category_id = :c_id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':c_id', $this->category_id);
+          if($stmt->execute()){ //remove if here
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'category_id Not Found'));
+                exit();
+            }
+          }
+
           // Create query
           $query = 'UPDATE ' . $this->table . '
-                                SET title = :title, body = :body, author = :author, category_id = :category_id
+                                SET quote = :quote, author_id = :author_id, category_id = :category_id
                                 WHERE id = :id';
 
           // Prepare statement
           $stmt = $this->conn->prepare($query);
 
           // Clean data
-          $this->title = htmlspecialchars(strip_tags($this->title));
-          $this->body = htmlspecialchars(strip_tags($this->body));
-          $this->author = htmlspecialchars(strip_tags($this->author));
+          $this->quote = htmlspecialchars(strip_tags($this->quote));
+          $this->author_id = htmlspecialchars(strip_tags($this->author_id));
           $this->category_id = htmlspecialchars(strip_tags($this->category_id));
           $this->id = htmlspecialchars(strip_tags($this->id));
 
           // Bind data
-          $stmt->bindParam(':title', $this->title);
-          $stmt->bindParam(':body', $this->body);
-          $stmt->bindParam(':author', $this->author);
+          $stmt->bindParam(':quote', $this->quote);
+          $stmt->bindParam(':author_id', $this->author_id);
           $stmt->bindParam(':category_id', $this->category_id);
           $stmt->bindParam(':id', $this->id);
 
@@ -282,7 +310,7 @@
           }
 
           // Print error if something goes wrong
-          printf("Error: %s.\n", $stmt->error);
+          //printf("Error: %s.\n", $stmt->error);
 
           return false;
     }

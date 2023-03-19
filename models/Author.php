@@ -75,7 +75,7 @@
       }
   }
 
-  // Create Category
+  // Create Author
   public function create() {
 
     // Create Query
