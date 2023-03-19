@@ -35,7 +35,7 @@
       array('message' => 'No Quotes Found')
     );
     exit();
-  }
+  }`
 
   // Set ID to update
   $quote->id = $data->id;
