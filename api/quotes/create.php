@@ -33,7 +33,7 @@
 
   // Create quote
   if($quote->create()) {
-  echo json_encode(array('id' => $quote->id,
+  echo json_encode(array('id' => $db->lastInsertId(),
         'quote' => $quote->quote,
         'author_id' => $quote->author_id,
         'category_id' => $quote->category_id));

@@ -32,7 +32,7 @@
   if($author->create()) {
     echo json_encode(
       array(
-        'id' => $author->id,
+        'id' => $db->lastInsertId(),
         'author' => $author->author));
   } else {
     echo json_encode(

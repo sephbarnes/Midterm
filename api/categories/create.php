@@ -31,7 +31,7 @@
   if($category->create()) {
     echo json_encode(
       array(
-        'id' => $category->id,
+        'id' => $db->lastInsertId(),
         'category' => $category->category));
   } else {
     echo json_encode(
