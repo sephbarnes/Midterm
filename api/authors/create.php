@@ -36,7 +36,7 @@
         'author' => $author->author));
   } else {
     echo json_encode(
-      array('message' => 'Author Not Created')
+      array('message' => 'author_id Not Found')
     );
   }
 
