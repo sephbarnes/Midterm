@@ -7,6 +7,7 @@
 
   include_once '../../config/Database.php';
   include_once '../../models/quote.php';
+  include_once '../../functions/isValid.php';
 
   // Instantiate DB & connect
   $database = new Database();
@@ -26,12 +27,15 @@
 		exit();
 	}
 
-  /* //check if the data is valid
+  //check if the data is valid
   $valid = isValid($data->id, $quote);
 
   if(!$valid) {
+    echo json_encode(
+      array('message' => 'No Quotes Found')
+    );
     exit();
-  }*/
+  }
 
   // Set ID to update
   $quote->id = $data->id;
