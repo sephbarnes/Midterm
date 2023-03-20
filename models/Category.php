@@ -122,8 +122,8 @@
   $this->id = htmlspecialchars(strip_tags($this->id));
 
   // Bind data
-  $stmt-> bindParam(':category', $this->category);
-  $stmt-> bindParam(':id', $this->id);
+  $stmt->bindParam(':category', $this->category);
+  $stmt->bindParam(':id', $this->id);
 
   // Execute query
   if($stmt->execute()) {
