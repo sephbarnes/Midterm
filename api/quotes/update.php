@@ -27,7 +27,7 @@
 		exit();
 	}
 
-  /*//check if the data is valid
+  //check if the data is valid
   $valid = isValid($data->id, $quote);
 
   if(!$valid) {
@@ -35,7 +35,7 @@
       array('message' => 'No Quotes Found')
     );
     exit();
-  }*/
+  }
 
   // Set ID to update
   $quote->id = $data->id;
