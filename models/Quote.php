@@ -334,6 +334,21 @@
 
     // Delete Post
     public function delete() {
+          //query if id exists  
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE id = :id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':id', $this->id);
+          if($stmt->execute()){ 
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'No Quotes Found')
+              );
+              exit();
+            }
+          }
+
           // Create query
           $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
