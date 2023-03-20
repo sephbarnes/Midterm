@@ -255,14 +255,30 @@
 
     // Update Post
     public function update() {
-          //before update check if author_id and category id are correct
+          //before update check if id, author_id, and category id are correct
+
+          //query if id exists  
+          $query = "SELECT quote FROM {$this->table} 
+                    WHERE id = :id";
+            
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':id', $this->id);
+          if($stmt->execute()){ 
+            if ($stmt->rowCount() === 0){
+              echo json_encode(
+                array('message' => 'No Quotes Found')
+              );
+              exit();
+            }
+          }
+
           //query if author_id exists  
           $query = "SELECT quote FROM {$this->table} 
                     WHERE author_id = :a_id";
             
           $stmt = $this->conn->prepare($query);
           $stmt->bindParam(':a_id', $this->author_id);
-          if($stmt->execute()){ //remove if here
+          if($stmt->execute()){ 
             if ($stmt->rowCount() === 0){
               echo json_encode(
                 array('message' => 'author_id Not Found')
@@ -277,7 +293,7 @@
             
           $stmt = $this->conn->prepare($query);
           $stmt->bindParam(':c_id', $this->category_id);
-          if($stmt->execute()){ //remove if here
+          if($stmt->execute()){ 
             if ($stmt->rowCount() === 0){
               echo json_encode(
                 array('message' => 'category_id Not Found'));
