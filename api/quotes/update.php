@@ -6,7 +6,7 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/quote.php';
+  include_once '../../models/Quote.php';
   include_once '../../functions/isValid.php';
 
   // Instantiate DB & connect
@@ -27,7 +27,7 @@
 		exit();
 	}
 
-  //check if the data is valid
+  /*//check if the data is valid
   $valid = isValid($data->id, $quote);
 
   if(!$valid) {
@@ -35,7 +35,7 @@
       array('message' => 'No Quotes Found')
     );
     exit();
-  }
+  }*/
 
   // Set ID to update
   $quote->id = $data->id;
@@ -46,9 +46,9 @@
   // Update quote
   if($quote->update()) {
     echo json_encode(array('id' => $quote->id,
-    'quote' => {$quote->quote},
-    'author_id' => {$quote->author_id},
-    'category_id' => {$quote->category_id}));
+    'quote' => $quote->quote,
+    'author_id' => $quote->author_id,
+    'category_id' => $quote->category_id));
   } else {
   echo json_encode(
     array('message' => 'No Quotes Found')
