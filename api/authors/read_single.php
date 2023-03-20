@@ -28,4 +28,4 @@
   );
 
   // Make JSON
-  print_r(json_encode($author_arr));
+  print_r(json_encode($author_arr));?>

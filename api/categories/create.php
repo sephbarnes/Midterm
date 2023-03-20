@@ -38,3 +38,4 @@
       array('message' => 'Category Not Created')
     );
   }
+  ?>

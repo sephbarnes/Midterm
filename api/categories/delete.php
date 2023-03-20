@@ -31,10 +31,11 @@
   // Delete post
   if($category->delete()) {
     echo json_encode(
-      array('id' => $data->id')
+      array('id' => $data->id)
     );
   } else {
     echo json_encode(
       array('message' => 'Category not deleted')
     );
   }
+  ?>

@@ -30,12 +30,11 @@
 
   // Delete post
   if($author->delete()) {
-    echo json_encode(
-      array('id' => $data->id')
-    );
+    echo json_encode(array('id' => $data->id));
   } else {
     echo json_encode(
       array('message' => 'Author Not Deleted')
     );
   }
 
+  ?>
