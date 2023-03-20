@@ -26,13 +26,13 @@
 		exit();
 	}
 
-  //check if the data is valid
+  /* //check if the data is valid
   $valid = isValid($data->id, $category);
  
     if(!$valid) {
     
     exit();
-  }
+  }*/
   
   // Set ID to UPDATE
   $category->id = $data->id;
@@ -40,9 +40,10 @@
 
   // Update category
   if($category->update()) {
-    echo json_encode(
+    $json = json_encode(
       array('id' => $category->id, 'category' => $category->category)
     );
+    echo $json;
   } else {
     echo json_encode(
       array('message' => 'category_id Not Found')
