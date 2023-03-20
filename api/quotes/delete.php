@@ -26,16 +26,6 @@
 		exit();
 	}
 
-  //check if the data is valid
-  $valid = isValid($data->id, $quote);
-
-  if(!$valid) {
-    echo json_encode(
-      array('message' => 'No Quotes Found')
-    );
-    exit();
-  }
-
   // Set ID to delete
   $quote->id = $data->id;
 
