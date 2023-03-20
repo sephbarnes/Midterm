@@ -1,3 +1,5 @@
-# midterm project from the desktop
+# Joseph Barnes
 
-# Midterm project github edit
+# Replit Home Page
+# https://replit.com/@JosephBarnes12/Midterm
+
