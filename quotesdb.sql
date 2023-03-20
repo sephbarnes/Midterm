@@ -63,3 +63,7 @@ INSERT INTO quotes (id, quote, author_id, category_id)
 (24, 'Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.', 3, 1),
 (25, 'Create in me a clean heart, O God; and renew a right spirit within me.', 3, 5),
 (26, 'And many shall follow their pernicious ways; by reason of whom the way of truth shall be evil spoken of.', 5, 4);
+
+SELECT setval('authors_id_seq', (SELECT MAX(the_primary_key) FROM the_table)+1);
+SELECT setval('categories_id_seq', (SELECT MAX(the_primary_key) FROM the_table)+1);
+SELECT setval('quotes_id_seq', (SELECT MAX(the_primary_key) FROM the_table)+1);
