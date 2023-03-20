@@ -32,7 +32,7 @@
     echo json_encode(
       array(
         'id' => $db->lastInsertId(),
-        'category' => $category->category));
+        'category' => $category->category),JSON_FORCE_OBJECT);
   } else {
     echo json_encode(
       array('message' => 'Category Not Created')

@@ -33,7 +33,7 @@
     echo json_encode(
       array(
         'id' => $db->lastInsertId(),
-        'author' => $author->author));
+        'author' => $author->author),JSON_FORCE_OBJECT);
   } else {
     echo json_encode(
       array('message' => 'author_id Not Found')

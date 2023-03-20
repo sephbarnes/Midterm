@@ -36,10 +36,10 @@
   echo json_encode(array('id' => $db->lastInsertId(),
         'quote' => $quote->quote,
         'author_id' => $quote->author_id,
-        'category_id' => $quote->category_id));
+        'category_id' => $quote->category_id),JSON_FORCE_OBJECT);
   } else {
     echo json_encode(
-      array('message' => 'Quote Not Created')
+      array('message' => 'Quote Not Created'),JSON_FORCE_OBJECT
     );
   }
   ?>
