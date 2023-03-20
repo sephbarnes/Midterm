@@ -30,10 +30,11 @@
 
   // Create author
   if($author->create()) {
-    echo json_encode(
+    $json = json_encode(
       array(
         'id' => $db->lastInsertId(),
-        'author' => $author->author),JSON_FORCE_OBJECT);
+        'author' => $author->author));
+    return $json;
   } else {
     echo json_encode(
       array('message' => 'author_id Not Found')
