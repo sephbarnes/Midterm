@@ -34,6 +34,7 @@
       array(
         'id' => $db->lastInsertId(),
         'author' => $author->author));
+    echo $json;
     return $json;
   } else {
     echo json_encode(
